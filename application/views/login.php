@@ -12,17 +12,52 @@
                 }
             });
         });
+
+        $('#captcha-contenedor').hide();
+
+        var i = 0;
         $('#save').click(function(){
             var data = $('#formCifra').serialize();
-            $.ajax({
-                type: 'post',
-                url: '<?php echo base_url("welcome/capturarCifra"); ?>',
-                data: data,
-                success: function (data) {
-                    $('#contenedor-modal').html(data);
-                }
-            });
+            i = i + 1;
+
+            if(i > 10){
+                $('#captcha-contenedor').show();
+                $('#save').attr('disabled',true);
+            }else{
+                $('#captcha-contenedor').hide();
+                $('#save').attr('disabled',false);
+            }
+                $.ajax({
+                    type: 'post',
+                    url: '<?php echo base_url("welcome/capturarCifra"); ?>',
+                    data: data,
+                    success: function (data) {
+                        $('#contenedor-modal').html(data);
+                    }
+                });
         });
+
+            var explode = function(){
+              alert("Boom!");
+            };
+            setTimeout(explode, 2000);
+
+            
+            $("#formCifra").clientSideCaptcha({
+                input: "#captchaText", 
+                display: "#captcha",
+                pass : function() { 
+                    alert("Passed!");
+                    $('#captcha-contenedor').hide();
+                    $('#save').attr('disabled',false);
+                    i = 0;
+                    return false; 
+                },
+                fail : function() { 
+                    alert("Failed!"); return false; 
+                }
+            });    
+
     });
 </script>
 <div class="container">
@@ -206,6 +241,21 @@
                   <div class="form-group">
                     <input type="text" class="form-control" id="exampleInputEmail1" name="cifra" placeholder="Cifra">
                   </div>
+                  <div id="captcha-contenedor">
+                        <div class="form-group">
+                            <div class="label">
+                                Introduzca el Captcha porfavor:
+                            </div>
+                            <div class="col-lg-6">
+                                <input type="text" class="form-control" id="captchaText" />
+                                <p id="captcha"></p>
+                            </div>
+                            <div class="col-lg-6">
+                                <button type="submit" id="captcha-solve" class="btn btn-success btn-sm pull-right"> Resolver Captcha</button>
+                            </div>
+                        </div>
+                  </div>
+                    
               <div id="contenedor-modal"></div>
         </div>
             <div class="modal-footer">
