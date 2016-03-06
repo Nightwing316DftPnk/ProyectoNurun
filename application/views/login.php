@@ -13,6 +13,19 @@
             });
         });
 
+        $('.borrar_reg').click(function(){
+            var id = this.id;
+            var data = $('#formDel-'+id).serialize();
+            $.ajax({
+                type: 'post',
+                url: '<?php echo base_url("welcome/borrarReg"); ?>',
+                data: data,
+                success: function (data) {
+                    $('#mensaje').html(data);
+                }
+            });
+        });
+
         $('#captcha-contenedor').hide();
 
         var i = 0;
@@ -37,12 +50,12 @@
                 });
         });
 
-            var explode = function(){
+           /* var explode = function(){
               alert("Boom!");
             };
-            setTimeout(explode, 2000);
+            setTimeout(explode, 2000);*/
 
-            
+
             $("#formCifra").clientSideCaptcha({
                 input: "#captchaText", 
                 display: "#captcha",
@@ -130,22 +143,28 @@
                                                            </tr>
                                                         </thead>
                                                         <tbody>
-                                            <?php foreach($registros as $reg){ ?>
+                                            <?php 
+                                                $i=0;
+                                                foreach($registros as $reg){ ?>
                                                             <tr>
                                                                 <td class="letra-inf"><?php echo $reg->cifra;?></td>
                                                                 <td class="letra-inf"><?php echo $reg->fecha;?></td>
                                                                 <td>
                                                                     <div class="pull-right action-buttons">
-                                                                        <a href="" class="btn btn-xs btn-default"><span class="color glyphicon glyphicon-pencil"></span></a>
-                                                                        <a href="" class="btn btn-xs btn-default"><span class="color glyphicon glyphicon-trash"></span></a>
+                                                                        <form id="formDel-borrar_reg<?php echo $i;?>">
+                                                                            <input type="hidden" name="identi" value="<?php echo $reg->id_cifra;?>">
+                                                                            <button type="button" id="borrar_reg<?php echo $i;?>" class="btn btn-danger btn-xs borrar_reg"><i class="glyphicon glyphicon-trash"></i></button>
+                                                                        </form>
                                                                     </div>
                                                                 </td>
                                                             </tr>
-                                        <?php }?>
+                                            <?php $i++; }?>
 
                                                         </tbody>
                                                     </table>
                                                 </div>
+                                                <div id="mensaje"></div>
+                                    </div>            
                                         <div class="panel-footer">
                                           <div class="row">
                                               <div class="col-md-6">

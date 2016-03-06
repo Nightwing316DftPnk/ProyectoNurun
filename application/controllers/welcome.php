@@ -93,6 +93,26 @@ class Welcome extends CI_Controller {
         }
     }
 
+    public function borrarReg(){
+        if(isset($_POST['identi']) && !empty($_POST['identi'])){
+            $identi = $_POST['identi'];
+        }
+
+        $respuesta = $this->mdl_general->borrar_reg($identi);
+
+        if($respuesta){
+            echo '<div class="alert alert-success">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    Registro borrado correctamente
+                </div>';
+        }else{
+            echo '<div class="alert alert-danger">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    Error al borrar registro
+                </div>';
+        }
+    }
+
     public function capturarCifra(){
         if(isset($_POST['usr']) && !empty($_POST['usr'])){
             $id = $_POST['usr'];
@@ -158,17 +178,20 @@ class Welcome extends CI_Controller {
             ));
         }
 
-        $config = array();
-        $config["base_url"] = base_url() . "welcome/index";
-        $config["total_rows"] = $this->mdl_general->record_count();
-        $config["per_page"] = 10;
-        $config["uri_segment"] = 3;
+        if(isset($data['user_profile'])){
+            $config = array();
+            $config["base_url"] = base_url() . "welcome/index";
+            $config["total_rows"] = $this->mdl_general->record_count();
+            $config["per_page"] = 10;
+            $config["uri_segment"] = 3;
 
-        $this->pagination->initialize($config);
-        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-        $registros = $this->mdl_general->obtenerRegistros($data['user_profile']['id'],$config["per_page"], $page);
-        $data["links"] = $this->pagination->create_links();
-        $data['registros'] = $registros;
+            $this->pagination->initialize($config);
+            $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+            $registros = $this->mdl_general->obtenerRegistros($data['user_profile']['id'],$config["per_page"], $page);
+            $data["links"] = $this->pagination->create_links();
+            $data['registros'] = $registros;
+        }
+            
 
         $this->load->view('inicio/header');
         $this->load->view('login',$data);
