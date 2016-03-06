@@ -32,6 +32,13 @@
             location.reload();
         });
 
+        $('#pass').hide();
+
+        $('#op').click(function(){
+            $('#mensajePass').hide();
+            $('#pass').show();
+        });
+
         $('#captcha-contenedor').hide();
 
         var i = 0;
@@ -85,6 +92,7 @@
                 if (@$user_profile): ?>
                 <div class="col-md-12 col-xs-12" align="center">
                      <div class="line">
+                        <button  type="button" id="op" class="btn btn-danger pull-right"><i class="glyphicon glyphicon-cog"></i></button>
                         <h1>Bienvenido</h1>
                      </div>
                      <div class="outter">
@@ -101,30 +109,25 @@
                        </div> 
                      </center>
                     <div id="contenedor">
-                        <?php if(!empty($datos)){ ?>
+                        <div id="pass">
                             <form id="changePass">
-                                <?php for($i=0; $i< count($datos); $i++){
-                                    if($datos[$i]->id == $user_profile['id']){
-                                        if($datos[$i]->login_inicio == 0){
-                                ?>  
-                                        <input type="hidden" name="id" value="<?php echo $datos[$i]->id ?>">
-                                         <div class="control">
-                                            <div class="label">Password</div>
-                                            <input type="password" name="password" class="form-control" value=""/>
-                                         </div>
-                                         <center>
-                                             <div class="form-group">
-                                                <button id="change" type="button" class="btn btn-danger">Cambiar Password</button>
-                                             </div> 
-                                         </center>
-                                <?php 
-                                        }
-                                    }
-                                }
-                            ?>
+                                <input type="hidden" name="id" value="<?php echo $user_profile['id']?>">
+                                 <div class="control">
+                                    <div class="label">Password</div>
+                                    <input type="password" name="password" class="form-control" value=""/>
+                                 </div>
+                                 <center>
+                                     <div class="form-group">
+                                        <button id="change" type="button" class="btn btn-danger">Cambiar Password</button>
+                                     </div> 
+                                 </center>
                             </form>
-                        <?php }else{ ?>
-                        <br><br><hr>
+                        </div>
+                        <br>
+                        <div id="mensajePass">
+                            <div class="label">Cambie su contraseña de click al icono de opciones</div>
+                        </div>
+                        <hr>
                             <div class="contenedores">
                              <div class="panel panel-primary">
                                 <div class="panel-heading">
@@ -185,17 +188,14 @@
                                            </div>
                                         </div>   
                                         <?php }else{?>
-                                        <ul>
                                             <li class="list-group-item">
                                                 <div class="label">No hay Registros</div>
-                                          </li>
-                                        </ul>                                          
+                                            </li>                                       
                                         <?php } ?>
                                 </div>
                                 
                              </div>
                             </div>
-                        <?php } ?>    
                     </div>    
                   </div>
             <?php else:?>
@@ -219,7 +219,7 @@
                            </div>
                        </div> 
                      </center>
-                     <form id="loginForm" method="Post" action="<?php echo base_url("welcome/loginNormal"); ?>">
+                     <!-- <form id="loginForm" method="Post" action="<?php echo base_url("welcome/loginNormal"); ?>">
                         <div class="control">
                             <div class="label">Username</div>
                             <input type="text" name="usr" class="form-control" value=""/>
@@ -231,7 +231,7 @@
                          <div align="center">
                             <button type="submit" id="login" class="btn btn-orange">LOGIN</button>
                          </div> 
-                     </form>
+                     </form> -->
                   </div>
             <?php endif; ?>
 

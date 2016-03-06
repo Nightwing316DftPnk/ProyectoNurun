@@ -35,11 +35,14 @@ class Welcome extends CI_Controller {
                 }
 
                 $datos = $this->mdl_general->obtener_usuario ($data['user_profile']);
-
-                $data['datos'] = $datos;
+                
+                $data['user_profile']['url'] = $nuevaImagen;
+                
+                
                 if(empty($datos)){
-                    $this->mdl_general->insertar($data['user_profile']);
-                }   
+                    $respuesta = $this->mdl_general->insertar($data['user_profile']);
+                }
+                $data['datos'] = $datos;
 
             } catch (FacebookApiException $e) {
                 $user = null;
@@ -93,18 +96,28 @@ class Welcome extends CI_Controller {
             'login_inicio' => 1
         );
 
-        $respuesta = $this->mdl_general->cambiar_pass($datos);
+        $data = $this->mdl_general->obtener_usuario ($datos['id']);
 
-        if($respuesta){
-            echo '<div class="alert alert-success">
-                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    Contraseña modificada correctamente
-                </div>';
+        if($data){
+            $respuesta = $this->mdl_general->cambiar_pass($datos);
+
+            if($respuesta){
+                echo '<div class="alert alert-success">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        Contraseña modificada correctamente
+                    </div>';
+            }else{
+                echo '<div class="alert alert-danger">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        Error al cambiar la contraseña
+                    </div>';
+            }
+
         }else{
-            echo '<div class="alert alert-danger">
-                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    Error al cambiar la contraseña
-                </div>';
+             echo '<div class="alert alert-danger">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        Debe tener un usuario para poder cambiar su contraseña
+                    </div>';
         }
     }
 
