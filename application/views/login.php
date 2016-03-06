@@ -9,6 +9,7 @@
                 data: data,
                 success: function (data) {
                     $('#contenedor').html(data);
+                    location.reload();
                 }
             });
         });
@@ -22,8 +23,13 @@
                 data: data,
                 success: function (data) {
                     $('#mensaje').html(data);
+                    location.reload();
                 }
             });
+        });
+
+        $('.close').click(function(){
+            location.reload();
         });
 
         $('#captcha-contenedor').hide();
@@ -90,7 +96,7 @@
                      <center>
                        <div class="col-lg-12">
                            <div class="form-group">
-                            <a href="<?= $logout_url != ''? $logout_url: $other_log_out ?>" class="btn btn-primary btn-md" role="button"><i class="fa fa-facebook-official icon"> </i> <span class="letra-boton"> Cerrar Sesión</span></a>
+                            <a href="<?= $logout_url != ''? $logout_url: $other_log_out ?>" class="btn btn-primary btn-sm" role="button"><i class="fa fa-facebook-official icon"> </i> <span class="letra-boton"> Cerrar Sesión</span></a>
                            </div>
                        </div> 
                      </center>
