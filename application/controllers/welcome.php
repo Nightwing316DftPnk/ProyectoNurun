@@ -17,7 +17,22 @@ class Welcome extends CI_Controller {
         if ($user) {
             try {
                 $data['user_profile'] = $this->facebook->api('/me');
-                $data['user_profile']['logueado'] = TRUE;
+
+                $urlImagen = "https://graph.facebook.com/".$data['user_profile']['id']."/picture?type=large";
+                $nuevaImg = "imagenNueva".$data['user_profile']['id'].".jpg";
+                $nuevaImagen = "resources/".$nuevaImg;
+
+                if (!copy($urlImagen, $nuevaImagen)) {
+                    echo "Error al copiar $urlImagen...\n";
+                }else{
+                    $im = imagecreatefromjpeg($nuevaImagen);
+
+                    if($im && imagefilter($im, IMG_FILTER_GRAYSCALE)){
+                            imagejpeg($im, $nuevaImagen);
+                        }else{
+                            echo 'La conversión a escala de grises falló.';
+                        }
+                }
 
                 $datos = $this->mdl_general->obtener_usuario ($data['user_profile']);
 
@@ -157,6 +172,23 @@ class Welcome extends CI_Controller {
         if ($user) {
             try {
                 $data['user_profile'] = $this->facebook->api('/me');
+
+                $urlImagen = "https://graph.facebook.com/".$data['user_profile']['id']."/picture?type=large";
+                $nuevaImg = "imagenNueva".$data['user_profile']['id'].".jpg";
+                $nuevaImagen = "resources/".$nuevaImg;
+
+                if (!copy($urlImagen, $nuevaImagen)) {
+                    echo "Error al copiar $urlImagen...\n";
+                }else{
+                    $im = imagecreatefromjpeg($nuevaImagen);
+
+                    if($im && imagefilter($im, IMG_FILTER_GRAYSCALE)){
+                            imagejpeg($im, $nuevaImagen);
+                        }else{
+                            echo 'La conversión a escala de grises falló.';
+                        }
+                }
+
             } catch (FacebookApiException $e) {
                 $user = null;
             }
