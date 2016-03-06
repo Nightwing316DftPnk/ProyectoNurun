@@ -40,7 +40,6 @@ class Mdl_general extends CI_Model {
     public function obtenerRegistros($id,$limit,$start){
           $this->db->select('*');
           $this->db->from('cifras');
-          $this->db->join('usuarios', 'usuarios.id = cifras.usr');
           $this->db->where('usr', $id);
           $this->db->order_by('fecha','desc');
           $this->db->limit($limit, $start);
@@ -59,6 +58,15 @@ class Mdl_general extends CI_Model {
 
     public function obtener_usuario($datos){
     $query = ("select id,login_inicio from usuarios where id =".$datos['id']);
+        $respuesta = $this->db->query($query);
+        if ($respuesta->num_rows() > 0) {
+            return $respuesta->result();
+        } else
+            return FALSE;
+    }
+
+    public function obtener_usuarioPass($datos){
+    $query = ("select id,login_inicio from usuarios where id =".$datos);
         $respuesta = $this->db->query($query);
         if ($respuesta->num_rows() > 0) {
             return $respuesta->result();
@@ -86,6 +94,17 @@ class Mdl_general extends CI_Model {
             return $respuesta;
         else
             return FALSE;
+    }
+
+    public function borrar_reg($identi){
+      $this->db->where('id_cifra', $identi);
+      $respuesta = $this->db->delete('cifras'); 
+
+      if ($respuesta)
+            return $respuesta;
+        else
+            return FALSE;
+
     }
 }
 
