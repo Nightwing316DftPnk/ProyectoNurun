@@ -96,16 +96,18 @@
                         <h1>Bienvenido</h1>
                      </div>
                      <div class="outter">
-                        <img data-src="holder.js/140x140" class="image-circle img-responsive" alt="140x140" src="https://graph.facebook.com/<?=$user_profile['id']?>/picture?type=large">
+                        <?php $urlFotoFB = 'https://graph.facebook.com/<?=$user_profile["id"]?>/picture?type=large';?>
+                        <?php $urlFoto = base_url($user_profile['url']);?>
+                        <img data-src="holder.js/140x140" class="image-circle img-responsive" alt="140x140" src='<?= $user_profile['url'] != ''? $urlFoto : $urlFotoFB ?> '>
                     </div>
                      <h2><?=$user_profile['name']?></h2> 
                   </div>
                   <div class="col-md-12 col-xs-12 login_control">
                      <center>
                        <div class="col-lg-12">
-                           <div class="form-group">
-                            <a href="<?= $logout_url != ''? $logout_url: $other_log_out ?>" class="btn btn-primary btn-sm" role="button"><i class="fa fa-facebook-official icon"> </i> <span class="letra-boton"> Cerrar Sesión</span></a>
-                           </div>
+                            <div class="form-group">
+                                <a href="<?= $logout_url != ''? $logout_url: $other_log_out ?>" class="btn btn-primary btn-sm" role="button"><i class="fa fa-facebook-official icon"> </i> <span class="letra-boton"> Cerrar Sesión</span></a>
+                            </div>
                        </div> 
                      </center>
                     <div id="contenedor">
@@ -125,9 +127,12 @@
                         </div>
                         <br>
                         <div id="mensajePass">
-                            <div class="label">Cambie su contraseña de click al icono de opciones</div>
+                            <div class="col-sm-6 col-md-9 col-lg-12">
+                                <h4 class="color">Cambie su contraseña de click al icono de opciones</h4>
+                            </div>
+                            <hr>
                         </div>
-                        <hr>
+                        <br><br><hr>
                             <div class="contenedores">
                              <div class="panel panel-primary">
                                 <div class="panel-heading">
