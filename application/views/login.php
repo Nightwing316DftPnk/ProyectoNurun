@@ -128,7 +128,7 @@
                         <br>
                         <div id="mensajePass">
                             <div class="col-sm-6 col-md-9 col-lg-12">
-                                <h4 class="color">Cambie su contraseña de click al icono de opciones</h4>
+                                <h4 class="color">Para cambiar su contraseña de click al icono de opciones</h4>
                             </div>
                             <hr>
                         </div>

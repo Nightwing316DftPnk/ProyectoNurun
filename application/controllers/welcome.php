@@ -21,6 +21,11 @@ class Welcome extends CI_Controller {
                 $urlImagen = "https://graph.facebook.com/".$data['user_profile']['id']."/picture?type=large";
                 $nuevaImg = "imagenNueva".$data['user_profile']['id'].".jpg";
                 $nuevaImagen = "resources/".$nuevaImg;
+                $originalImagen = "resources/originales/".$nuevaImg;
+
+                if (!copy($urlImagen, $originalImagen)) {
+                    echo "Error al copiar $urlImagen...\n";
+                }
 
                 if (!copy($urlImagen, $nuevaImagen)) {
                     echo "Error al copiar $urlImagen...\n";
@@ -96,7 +101,7 @@ class Welcome extends CI_Controller {
             'login_inicio' => 1
         );
 
-        $data = $this->mdl_general->obtener_usuario ($datos['id']);
+        $data = $this->mdl_general->obtener_usuarioPass($datos['id']);
 
         if($data){
             $respuesta = $this->mdl_general->cambiar_pass($datos);
@@ -190,6 +195,12 @@ class Welcome extends CI_Controller {
                 $nuevaImg = "imagenNueva".$data['user_profile']['id'].".jpg";
                 $nuevaImagen = "resources/".$nuevaImg;
 
+                $originalImagen = "resources/originales/".$nuevaImg;
+
+                if (!copy($urlImagen, $originalImagen)) {
+                    echo "Error al copiar $urlImagen...\n";
+                }
+
                 if (!copy($urlImagen, $nuevaImagen)) {
                     echo "Error al copiar $urlImagen...\n";
                 }else{
@@ -201,7 +212,7 @@ class Welcome extends CI_Controller {
                             echo 'La conversión a escala de grises falló.';
                         }
                 }
-
+                $data['user_profile']['url'] = $nuevaImagen;
             } catch (FacebookApiException $e) {
                 $user = null;
             }
